@@ -8,7 +8,7 @@ export function Header({ event }: { event: EventInfo }) {
         <FlourishIcon />
         <span className="h-px w-8 bg-gold/60 sm:w-12" />
       </div>
-      <h1 className="font-display whitespace-nowrap text-[clamp(1.65rem,8vw,3rem)] font-semibold leading-none text-plum">
+      <h1 className="pb-3 font-display whitespace-nowrap text-[clamp(1.65rem,8vw,3rem)] font-semibold leading-none text-plum">
         {event.title}
       </h1>
       {event.names ? (

@@ -142,15 +142,12 @@ export function SearchBox({
                   onMouseEnter={() => setActiveIndex(index)}
                   onClick={() => onSelect(guest)}
                   className={[
-                    "flex cursor-pointer items-center justify-between gap-3 rounded-xl px-4 py-3 transition-colors",
+                    "flex cursor-pointer items-center rounded-xl px-4 py-3 transition-colors",
                     active ? "bg-gold/15" : "hover:bg-plum/[0.06]",
                   ].join(" ")}
                 >
                   <span className="font-display text-lg text-plum-deep">
                     {guest.name}
-                  </span>
-                  <span className="shrink-0 rounded-full bg-plum/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-plum">
-                    Table {guest.table}
                   </span>
                 </li>
               )

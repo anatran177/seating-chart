@@ -44,6 +44,21 @@ export function createGuestIndex(guests: Guest[]): GuestFuse {
 
 export type GuestSearchResult = { guest: Guest; score: number }
 
+/**
+ * Re-rank Fuse matches so prefix relevance beats generic fuzzy matching.
+ * Lower tier = better: 0 first-name prefix, 1 full-name prefix, 2 any word prefix,
+ * 3 contains, 4 fuzzy only. This is why typing "A" surfaces A-names first.
+ */
+function prefixTier(name: string, query: string): number {
+  const words = name.split(/[\s-]+/)
+  const first = words[0] ?? name
+  if (first.startsWith(query)) return 0
+  if (name.startsWith(query)) return 1
+  if (words.some((word) => word.startsWith(query))) return 2
+  if (name.includes(query)) return 3
+  return 4
+}
+
 /** Run a fuzzy search, returning up to `limit` best guest matches. */
 export function searchGuests(
   fuse: GuestFuse,
@@ -55,9 +70,17 @@ export function searchGuests(
 
   return fuse
     .search(normalized)
-    .slice(0, limit)
     .map((result) => ({
       guest: result.item.guest,
+      tier: prefixTier(result.item.name, normalized),
       score: result.score ?? 1,
     }))
+    .sort(
+      (a, b) =>
+        a.tier - b.tier ||
+        a.score - b.score ||
+        a.guest.name.localeCompare(b.guest.name),
+    )
+    .slice(0, limit)
+    .map(({ guest, score }) => ({ guest, score }))
 }

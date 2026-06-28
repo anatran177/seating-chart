@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* ----------------------------------------------------------------------------
+   Design tokens — base #5F3248 (deep plum) + harmonious elegant palette.
+   Defining these in @theme makes utilities like bg-plum, text-gold, font-display
+   available throughout the app.
+---------------------------------------------------------------------------- */
+@theme {
+  --color-plum: #5f3248;
+  --color-plum-deep: #3e1f30;
+  --color-plum-soft: #7a4a60;
+  --color-ivory: #f7f1ea;
+  --color-ivory-deep: #efe4d6;
+  --color-gold: #c9a961;
+  --color-gold-soft: #ddc592;
+  --color-rose: #b5798a;
+  --color-sage: #9ca88e;
+
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-script: "Great Vibes", "Cormorant Garamond", cursive;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --shadow-soft: 0 18px 50px -20px rgba(62, 31, 48, 0.45);
+  --shadow-card: 0 30px 80px -30px rgba(62, 31, 48, 0.55);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-plum-deep);
+    background-color: var(--color-ivory);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Keep inputs readable on mobile and prevent iOS focus zoom. */
+  input,
+  button,
+  select,
+  textarea {
+    font-size: 16px;
+    font-family: inherit;
+  }
+
+  /* Always-visible keyboard focus ring (gold) for accessibility. */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-gold) 45%, transparent);
+    color: var(--color-plum-deep);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Reduced motion — flatten all transitions/animations to static.
+   Also enforced in JS via Framer Motion's useReducedMotion().
+---------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "event": {
+    "title": "Tortellini in Love",
+    "names": "Ana & Kevin",
+    "subtitle": "Saturday, June 27, 2026 · The Garden Pavilion"
+  },
+  "guests": [
+    { "name": "Eleanor Whitmore", "table": 1 },
+    { "name": "Thomas Whitmore", "table": 1 },
+    { "name": "Marguerite Bellamy", "table": 1 },
+
+    { "name": "Sebastian Crowe", "table": 2 },
+    { "name": "Adelaide Hart", "table": 2 },
+    { "name": "Nathaniel Reyes", "table": 2 },
+
+    { "name": "Camille Dubois", "table": 3 },
+    { "name": "Olivia Reyes", "table": 3 },
+    { "name": "Henry Pemberton", "table": 3 },
+
+    { "name": "Isabella Rossi", "table": 4 },
+    { "name": "Daniel Okafor", "table": 4 },
+    { "name": "Penelope Ashworth", "table": 4 },
+
+    { "name": "James Okonkwo", "table": 5 },
+    { "name": "Beatrice Langford", "table": 5 },
+    { "name": "Christopher Lee", "table": 5 },
+
+    { "name": "Sophia Marchetti", "table": 6 },
+    { "name": "Marcus Bellamy", "table": 6 },
+
+    { "name": "Mei-Lin Zhao", "table": 8 },
+    { "name": "Anastasia Volkov", "table": 8 },
+
+    { "name": "Chris Lee", "table": 9 },
+    { "name": "Rafael Delgado", "table": 9 },
+    { "name": "Vivian Holloway", "table": 9 }
+  ]
+}

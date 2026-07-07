@@ -90,7 +90,7 @@ export function ResultCard({ status, guest, candidates, onSelect, onReset }: Res
           <span className="h-px w-12 bg-gold/60" />
         </div>
 
-        <p className="font-display text-6xl font-semibold text-plum sm:text-7xl">
+        <p className="font-numeral text-6xl text-plum sm:text-7xl">
           {guest.table}
         </p>
 

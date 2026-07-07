@@ -5,34 +5,39 @@
     "subtitle": "Saturday, November 14, 2026"
   },
   "guests": [
-    { "name": "Eleanor Whitmore", "table": 1 },
-    { "name": "Thomas Whitmore", "table": 1 },
-    { "name": "Marguerite Bellamy", "table": 1 },
+    { "name": "Will Nguyen", "table": 1 },
+    { "name": "Emily Chen", "table": 1 },
+    { "name": "Arielle Ayugat", "table": 1 },
+    { "name": "Peter Hoang", "table": 1 },
+    { "name": "Debini Hoang", "table": 1 },
+    { "name": "Bea Aycardo", "table": 1 },
+    { "name": "Martin Nguyen", "table": 1 },
+    { "name": "Celine Le", "table": 1 },
+    { "name": "Derek Nguyen", "table": 1 },
+    { "name": "Queenie Lacaben", "table": 1 },
+    { "name": "Kelsey Syahmono", "table": 1 },
+    { "name": "Kaylee Syahmono", "table": 1 },
 
-    { "name": "Sebastian Crowe", "table": 2 },
-    { "name": "Adelaide Hart", "table": 2 },
-    { "name": "Nathaniel Reyes", "table": 2 },
+    { "name": "Michelle Rivai", "table": 2 },
+    { "name": "Farras Rivai", "table": 2 },
+    { "name": "Angga Ramzy", "table": 2 },
+    { "name": "Bunga Ghassani", "table": 2 },
+    { "name": "Becky Smith", "table": 2 },
 
-    { "name": "Camille Dubois", "table": 3 },
-    { "name": "Olivia Reyes", "table": 3 },
-    { "name": "Henry Pemberton", "table": 3 },
+    { "name": "Naveed Merchant", "table": 3 },
+    { "name": "Aamir Merchant", "table": 3 },
+    { "name": "Brian Li", "table": 3 },
+    { "name": "Bryan Dieu", "table": 3 },
+    { "name": "Jeff Chen", "table": 3 },
+    { "name": "Justine Aquino", "table": 3 },
 
-    { "name": "Isabella Rossi", "table": 4 },
-    { "name": "Daniel Okafor", "table": 4 },
-    { "name": "Penelope Ashworth", "table": 4 },
-
-    { "name": "James Okonkwo", "table": 5 },
-    { "name": "Beatrice Langford", "table": 5 },
-    { "name": "Christopher Lee", "table": 5 },
-
-    { "name": "Sophia Marchetti", "table": 6 },
-    { "name": "Marcus Bellamy", "table": 6 },
-
-    { "name": "Mei-Lin Zhao", "table": 8 },
-    { "name": "Anastasia Volkov", "table": 8 },
-
-    { "name": "Chris Lee", "table": 9 },
-    { "name": "Rafael Delgado", "table": 9 },
-    { "name": "Vivian Holloway", "table": 9 }
+    { "name": "Trung Tran", "table": 4 },
+    { "name": "Monica Silverio", "table": 4 },
+    { "name": "Ahnaf Rabbani", "table": 4 },
+    { "name": "Austin Mills", "table": 4 },
+    { "name": "Alvin Ewaldo", "table": 4 },
+    { "name": "Lucky Marchelino", "table": 4 },
+    { "name": "Ady Rendusara", "table": 4 },
+    { "name": "Davi Rahadi", "table": 4 }
   ]
 }

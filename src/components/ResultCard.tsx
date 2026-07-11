@@ -14,6 +14,14 @@ interface ResultCardProps {
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
+/** Rotating accent tints for the monogram avatars — adds visual rhythm. */
+const AVATAR_TINTS = [
+  "bg-rose/25 text-plum",
+  "bg-gold/35 text-plum-deep",
+  "bg-plum/20 text-plum",
+  "bg-sage/40 text-plum-deep",
+]
+
 function TableBadge({ guest, className = "" }: { guest: Guest; className?: string }) {
   return (
     <span
@@ -90,29 +98,39 @@ export function ResultCard({ status, guest, candidates, tableMates, onSelect, on
 
         {tableMates.length > 0 && (
           <motion.div
-            className="mx-auto mt-7 w-full max-w-sm"
+            className="mx-auto mt-8 w-full"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: EASE, delay: 0.25 }}
           >
-            <div className="flex items-center justify-center gap-3 text-gold">
-              <span className="h-px w-8 bg-gold/50" />
-              <span className="text-[0.65rem] uppercase tracking-[0.25em] text-plum-soft/70">
+            <div className="mb-4 flex items-center justify-center gap-2.5 text-gold">
+              <span className="h-px w-8 bg-gold/50 sm:w-12" />
+              <span className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.25em] text-plum-soft/70">
                 Also at this table
+                <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-gold/25 px-1 font-sans text-[0.6rem] font-bold text-plum">
+                  {tableMates.length}
+                </span>
               </span>
-              <span className="h-px w-8 bg-gold/50" />
+              <span className="h-px w-8 bg-gold/50 sm:w-12" />
             </div>
 
-            <ul className="mt-4 flex flex-col items-center gap-2">
+            <ul className="flex flex-wrap justify-center gap-2">
               {tableMates.map((m, i) => (
                 <motion.li
                   key={m.name}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, scale: 0.8, y: 6 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: EASE, delay: 0.3 + i * 0.05 }}
-                  className="flex w-full items-center justify-center rounded-full border border-gold/20 bg-plum/10 px-4 py-1.5 font-display text-base text-plum-deep"
+                  className="flex items-center gap-2 rounded-full border border-gold/20 bg-plum/[0.06] py-1 pl-1 pr-3.5 shadow-[0_2px_8px_-5px_rgba(62,31,48,0.35)]"
                 >
-                  {m.name}
+                  <span
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-display text-sm font-semibold ${AVATAR_TINTS[i % AVATAR_TINTS.length]}`}
+                  >
+                    {firstName(m.name).charAt(0)}
+                  </span>
+                  <span className="font-display text-sm text-plum-deep">
+                    {firstName(m.name)}
+                  </span>
                 </motion.li>
               ))}
             </ul>

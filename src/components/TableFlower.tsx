@@ -5,13 +5,29 @@ import { useId } from "react"
 /* Tables not listed here fall back to DEFAULT_KIND so new tables keep working.*/
 /* -------------------------------------------------------------------------- */
 
-type FlowerKind =
+export type FlowerKind =
   | "peony"
   | "delphinium"
   | "daisy"
   | "ranunculus"
   | "lotus"
   | "sweetpea"
+  | "tulip"
+  | "sunflower"
+  | "lavender"
+  | "anemone"
+  | "hydrangea"
+  | "iris"
+  | "poppy"
+  | "sakura"
+  | "daffodil"
+  | "camellia"
+  | "lily_calla"
+  | "lily_stargazer"
+  | "lily_tiger"
+  | "orchid_moth"
+  | "orchid_cattleya"
+  | "orchid_slipper"
 
 const TABLE_FLOWERS: Record<number, FlowerKind> = {
   1: "sweetpea",
@@ -29,6 +45,22 @@ const FLOWER_NAMES: Record<FlowerKind, string> = {
   ranunculus: "Ranunculus",
   lotus: "Lotus",
   sweetpea: "Sweet Pea",
+  tulip: "Tulip",
+  sunflower: "Sunflower",
+  lavender: "Lavender",
+  anemone: "Anemone",
+  hydrangea: "Hydrangea",
+  iris: "Iris",
+  poppy: "Poppy",
+  sakura: "Cherry Blossom",
+  daffodil: "Daffodil",
+  camellia: "Camellia",
+  lily_calla: "Calla Lily",
+  lily_stargazer: "Stargazer Lily",
+  lily_tiger: "Tiger Lily",
+  orchid_moth: "Moth Orchid",
+  orchid_cattleya: "Cattleya Orchid",
+  orchid_slipper: "Slipper Orchid",
 }
 
 const DEFAULT_KIND: FlowerKind = "peony"
@@ -362,6 +394,703 @@ function SweetPea({ id }: { id: string }) {
   )
 }
 
+/** Candidate bloom — Tulip: cupped three-lobed silhouette with stem and leaf. Coral. */
+function Tulip({ id }: { id: string }) {
+  const baseY = 68
+  const left = `M 50 ${baseY} C 32 ${baseY - 4}, 28 40, 36 22 C 42 30, 47 44, 50 ${baseY} Z`
+  const right = `M 50 ${baseY} C 68 ${baseY - 4}, 72 40, 64 22 C 58 30, 53 44, 50 ${baseY} Z`
+  const center = `M 50 ${baseY + 2} C 40 ${baseY - 2}, 38 42, 44 20 C 47 30, 49 42, 50 54 C 51 42, 53 30, 56 20 C 62 42, 60 ${baseY - 2}, 50 ${baseY + 2} Z`
+  return (
+    <g>
+      <path d={left} fill={`url(#${id}-side)`} />
+      <path d={right} fill={`url(#${id}-side)`} />
+      <path d={center} fill={`url(#${id}-front)`} />
+      <path d={`M 50 ${baseY} C 50 ${baseY + 10}, 50 ${baseY + 20}, 50 96`} fill="none" stroke="#7A8C6E" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M 50 86 C 40 82, 32 74, 30 62 C 38 70, 45 79, 50 86 Z" fill="#9CA88E" />
+      <path d="M 50 90 C 60 86, 66 78, 66 66 C 60 74, 53 82, 50 90 Z" fill="#9CA88E" opacity="0.85" />
+      <ellipse cx="44" cy="34" rx="4.5" ry="9" fill="#ffffff" opacity="0.18" transform="rotate(-18 44 34)" />
+      <defs>
+        <linearGradient id={`${id}-front`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FFB59E" />
+          <stop offset="100%" stopColor="#E07A5F" />
+        </linearGradient>
+        <linearGradient id={`${id}-side`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#E89379" />
+          <stop offset="100%" stopColor="#C5634A" />
+        </linearGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Sunflower: two offset rings of narrow ray petals around a seeded disk. Gold. */
+function Sunflower({ id }: { id: string }) {
+  const pathFor = (len: number, w: number) => {
+    const tipY = 50 - len
+    return [
+      "M 50 50",
+      `C ${50 - w} ${50 - len * 0.4}, ${50 - w * 0.5} ${tipY + 3}, 50 ${tipY}`,
+      `C ${50 + w * 0.5} ${tipY + 3}, ${50 + w} ${50 - len * 0.4}, 50 50 Z`,
+    ].join(" ")
+  }
+  const rings = [
+    { count: 16, len: 38, w: 6, opacity: 0.92, offset: 0 },
+    { count: 16, len: 33, w: 5.5, opacity: 0.85, offset: 11.25 },
+  ]
+  return (
+    <g>
+      {rings.map((r) =>
+        Array.from({ length: r.count }, (_, i) => {
+          const angle = r.offset + (360 / r.count) * i
+          return (
+            <path
+              key={`ring-${r.count}-${i}`}
+              d={pathFor(r.len, r.w)}
+              fill={`url(#${id}-petal)`}
+              opacity={r.opacity}
+              transform={`rotate(${angle} 50 50)`}
+            />
+          )
+        }),
+      )}
+      <circle cx="50" cy="50" r="13" fill={`url(#${id}-center)`} />
+      {Array.from({ length: 18 }, (_, i) => {
+        const a = (360 / 18) * i
+        const r = 8
+        const cx = 50 + r * Math.cos((a * Math.PI) / 180)
+        const cy = 50 + r * Math.sin((a * Math.PI) / 180)
+        return <circle key={`seed-${i}`} cx={cx} cy={cy} r="1.1" fill="#5A3A1E" opacity="0.5" />
+      })}
+      {Array.from({ length: 10 }, (_, i) => {
+        const a = (360 / 10) * i + 13
+        const r = 4
+        const cx = 50 + r * Math.cos((a * Math.PI) / 180)
+        const cy = 50 + r * Math.sin((a * Math.PI) / 180)
+        return <circle key={`seed2-${i}`} cx={cx} cy={cy} r="0.9" fill="#5A3A1E" opacity="0.5" />
+      })}
+      <circle cx="46" cy="46" r="5" fill={`url(#${id}-hi)`} opacity="0.4" />
+      <defs>
+        <linearGradient id={`${id}-petal`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#F6D247" />
+          <stop offset="100%" stopColor="#E0A82E" />
+        </linearGradient>
+        <radialGradient id={`${id}-center`} cx="50%" cy="40%" r="70%">
+          <stop offset="0%" stopColor="#8B5A2B" />
+          <stop offset="100%" stopColor="#5A3A1E" />
+        </radialGradient>
+        <radialGradient id={`${id}-hi`}>
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
+          <stop offset="70%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Lavender: a slender spike of tiny starry bud whorls. Violet. */
+function Lavender({ id }: { id: string }) {
+  const tiers = [
+    { y: 24, s: 1.0 },
+    { y: 33, s: 1.05 },
+    { y: 42, s: 1.0 },
+    { y: 51, s: 0.95 },
+    { y: 60, s: 0.82 },
+    { y: 67, s: 0.65 },
+  ]
+  const bud = (cx: number, cy: number, s: number) => (
+    <g transform={`translate(${cx} ${cy}) scale(${s})`}>
+      {Array.from({ length: 5 }, (_, i) => {
+        const a = (360 / 5) * i - 90
+        return (
+          <ellipse
+            key={i}
+            cx={0}
+            cy={-3}
+            rx={1.8}
+            ry={3.2}
+            fill={`url(#${id}-bud)`}
+            transform={`rotate(${a})`}
+          />
+        )
+      })}
+      <circle cx={0} cy={0} r={1.4} fill="#6B4A8C" />
+    </g>
+  )
+  return (
+    <g>
+      <path d="M 50 90 C 50 78, 50 64, 50 24" fill="none" stroke="#8AA07A" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M 50 80 C 42 78, 36 72, 34 64 C 40 70, 46 76, 50 80 Z" fill="#9CA88E" />
+      <path d="M 50 84 C 58 82, 64 76, 66 68 C 60 74, 54 80, 50 84 Z" fill="#9CA88E" />
+      {tiers.map((t, i) => (
+        <g key={`tier-${i}`}>{bud(50, t.y, t.s)}</g>
+      ))}
+      <defs>
+        <radialGradient id={`${id}-bud`} cx="50%" cy="30%" r="80%">
+          <stop offset="0%" stopColor="#B89AD6" />
+          <stop offset="100%" stopColor="#7A5AA8" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Anemone: a ring of soft petals around a dark, fuzzy center. Violet-white. */
+function Anemone({ id }: { id: string }) {
+  const count = 8
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = (360 / count) * i
+        return (
+          <ellipse
+            key={`petal-${i}`}
+            cx={50}
+            cy={20}
+            rx={7}
+            ry={20}
+            fill={`url(#${id}-petal)`}
+            transform={`rotate(${angle} 50 50)`}
+          />
+        )
+      })}
+      <circle cx="50" cy="50" r="11" fill={`url(#${id}-center)`} />
+      {Array.from({ length: 16 }, (_, i) => {
+        const a = (360 / 16) * i
+        const r = 8.5
+        const cx = 50 + r * Math.cos((a * Math.PI) / 180)
+        const cy = 50 + r * Math.sin((a * Math.PI) / 180)
+        return <circle key={`fuzz-${i}`} cx={cx} cy={cy} r="1.3" fill="#2A1A35" />
+      })}
+      <circle cx="50" cy="50" r="5" fill="#1E1228" />
+      <circle cx="47" cy="47" r="4" fill={`url(#${id}-hi)`} opacity="0.35" />
+      <defs>
+        <linearGradient id={`${id}-petal`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#F4ECF4" />
+          <stop offset="100%" stopColor="#C9B6D8" />
+        </linearGradient>
+        <radialGradient id={`${id}-center`} cx="50%" cy="40%" r="70%">
+          <stop offset="0%" stopColor="#4A2E5A" />
+          <stop offset="100%" stopColor="#1E1228" />
+        </radialGradient>
+        <radialGradient id={`${id}-hi`}>
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
+          <stop offset="70%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Hydrangea: a packed dome of small four-petal florets. Soft blue. */
+function Hydrangea({ id }: { id: string }) {
+  const florets = [
+    { x: 50, y: 36, s: 1.0 },
+    { x: 38, y: 44, s: 0.95 },
+    { x: 62, y: 44, s: 0.95 },
+    { x: 50, y: 50, s: 1.05 },
+    { x: 43, y: 57, s: 1.0 },
+    { x: 57, y: 57, s: 1.0 },
+    { x: 41, y: 65, s: 0.82 },
+    { x: 59, y: 65, s: 0.82 },
+    { x: 50, y: 64, s: 0.85 },
+  ]
+  const floret = (cx: number, cy: number, s: number, key: string) => (
+    <g key={key} transform={`translate(${cx} ${cy}) scale(${s})`}>
+      <ellipse cx={0} cy={-3.6} rx={3.2} ry={4.2} fill={`url(#${id}-petal)`} />
+      <ellipse cx={0} cy={3.6} rx={3.2} ry={4.2} fill={`url(#${id}-petal)`} />
+      <ellipse cx={-3.6} cy={0} rx={4.2} ry={3.2} fill={`url(#${id}-petal)`} />
+      <ellipse cx={3.6} cy={0} rx={4.2} ry={3.2} fill={`url(#${id}-petal)`} />
+      <circle cx={0} cy={0} r={1.4} fill="#5A7A98" />
+    </g>
+  )
+  return (
+    <g>
+      {florets.map((f, i) => floret(f.x, f.y, f.s, `f-${i}`))}
+      <defs>
+        <radialGradient id={`${id}-petal`} cx="50%" cy="35%" r="75%">
+          <stop offset="0%" stopColor="#D4E2EE" />
+          <stop offset="100%" stopColor="#7A9AB5" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Iris: upright standards behind three drooping falls with gold beards. Violet. */
+function Iris({ id }: { id: string }) {
+  const fallPath = (L: number, W: number) =>
+    [
+      "M 50 50",
+      `C ${50 - W} 52, ${50 - W} ${50 + L * 0.5}, ${50 - W * 0.5} ${50 + L}`,
+      `C 50 ${50 + L + 4}, ${50 + W * 0.5} ${50 + L * 0.5}, ${50 + W} 52`,
+      "Z",
+    ].join(" ")
+  const standardPath = (L: number, W: number) =>
+    [
+      "M 50 50",
+      `C ${50 - W} 48, ${50 - W} ${50 - L * 0.5}, 50 ${50 - L}`,
+      `C ${50 + W} ${50 - L * 0.5}, ${50 + W} 48, 50 50 Z`,
+    ].join(" ")
+  const falls = [
+    { angle: 30, len: 30, w: 12 },
+    { angle: 150, len: 30, w: 12 },
+    { angle: 270, len: 30, w: 12 },
+  ]
+  const standards = [
+    { angle: 90, len: 26, w: 7 },
+    { angle: 210, len: 26, w: 7 },
+    { angle: 330, len: 26, w: 7 },
+  ]
+  return (
+    <g>
+      {standards.map((s) => (
+        <path
+          key={`std-${s.angle}`}
+          d={standardPath(s.len, s.w)}
+          fill={`url(#${id}-standard)`}
+          transform={`rotate(${s.angle} 50 50)`}
+        />
+      ))}
+      {falls.map((f) => (
+        <g key={`fall-${f.angle}`} transform={`rotate(${f.angle} 50 50)`}>
+          <path d={fallPath(f.len, f.w)} fill={`url(#${id}-fall)`} />
+          <path
+            d={`M 50 52 C 50 62, 50 70, 50 ${50 + f.len * 0.72}`}
+            fill="none"
+            stroke="#E6C879"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            opacity="0.85"
+          />
+        </g>
+      ))}
+      <circle cx="50" cy="50" r="3" fill="#3A2452" />
+      <defs>
+        <radialGradient id={`${id}-fall`} cx="50%" cy="25%" r="85%">
+          <stop offset="0%" stopColor="#9C7BC4" />
+          <stop offset="100%" stopColor="#4A2E6E" />
+        </radialGradient>
+        <linearGradient id={`${id}-standard`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#7A5AA8" />
+          <stop offset="100%" stopColor="#3A2452" />
+        </linearGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Poppy: broad crinkled petals with dark basal blotch around a seed capsule. Crimson. */
+function Poppy({ id }: { id: string }) {
+  const count = 5
+  const petal =
+    "M 50 50 C 40 44, 32 34, 34 18 C 42 22, 48 28, 50 32 C 52 28, 58 22, 66 18 C 68 34, 60 44, 50 50 Z"
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = (360 / count) * i
+        return (
+          <g key={`petal-${i}`} transform={`rotate(${angle} 50 50)`}>
+            <path d={petal} fill={`url(#${id}-petal)`} />
+            <ellipse cx="50" cy="40" rx="6" ry="9" fill="#5A1020" opacity="0.32" />
+          </g>
+        )
+      })}
+      <circle cx="50" cy="50" r="6" fill="#1E1020" />
+      {Array.from({ length: 12 }, (_, i) => {
+        const a = (360 / 12) * i
+        const r = 7
+        const cx = 50 + r * Math.cos((a * Math.PI) / 180)
+        const cy = 50 + r * Math.sin((a * Math.PI) / 180)
+        return <circle key={`stamen-${i}`} cx={cx} cy={cy} r="1.1" fill="#2A1A2A" />
+      })}
+      <circle cx="47" cy="47" r="5" fill={`url(#${id}-hi)`} opacity="0.3" />
+      <defs>
+        <radialGradient id={`${id}-petal`} cx="50%" cy="80%" r="85%">
+          <stop offset="0%" stopColor="#FF6B5E" />
+          <stop offset="100%" stopColor="#D32E3A" />
+        </radialGradient>
+        <radialGradient id={`${id}-hi`}>
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
+          <stop offset="70%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Cherry Blossom: five notched petals with a stamen ring. Blush pink. */
+function Sakura({ id }: { id: string }) {
+  const count = 5
+  const petal = [
+    "M 50 50",
+    "C 39 43, 34 28, 40 12",
+    "C 44 15, 47 14, 47 14",
+    "L 50 18",
+    "L 53 14",
+    "C 53 14, 56 15, 60 12",
+    "C 66 28, 61 43, 50 50 Z",
+  ].join(" ")
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = (360 / count) * i
+        return (
+          <path
+            key={`petal-${i}`}
+            d={petal}
+            fill={`url(#${id}-petal)`}
+            transform={`rotate(${angle} 50 50)`}
+          />
+        )
+      })}
+      {Array.from({ length: 14 }, (_, i) => {
+        const a = (360 / 14) * i
+        const r = 7
+        const cx = 50 + r * Math.cos((a * Math.PI) / 180)
+        const cy = 50 + r * Math.sin((a * Math.PI) / 180)
+        return <circle key={`stamen-${i}`} cx={cx} cy={cy} r="1.1" fill="#E6A061" />
+      })}
+      <circle cx="50" cy="50" r="3" fill="#D98AA0" />
+      <circle cx="46" cy="46" r="4" fill={`url(#${id}-hi)`} opacity="0.3" />
+      <defs>
+        <radialGradient id={`${id}-petal`} cx="50%" cy="80%" r="85%">
+          <stop offset="0%" stopColor="#FFE0EA" />
+          <stop offset="100%" stopColor="#F4A8C0" />
+        </radialGradient>
+        <radialGradient id={`${id}-hi`}>
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
+          <stop offset="70%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Daffodil: six-petal skirt with a flared trumpet coronet. Gold. */
+function Daffodil({ id }: { id: string }) {
+  const count = 6
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = (360 / count) * i
+        return (
+          <ellipse
+            key={`petal-${i}`}
+            cx={50}
+            cy={24}
+            rx={9}
+            ry={18}
+            fill={`url(#${id}-petal)`}
+            transform={`rotate(${angle} 50 50)`}
+          />
+        )
+      })}
+      <path
+        d="M 36 52 C 36 38, 42 30, 50 30 C 58 30, 64 38, 64 52 C 62 58, 56 62, 50 62 C 44 62, 38 58, 36 52 Z"
+        fill={`url(#${id}-trumpet)`}
+      />
+      <ellipse cx="50" cy="50" rx="11" ry="6" fill="#B8862A" opacity="0.45" />
+      <ellipse cx="48" cy="47" rx="4" ry="2.5" fill="#ffffff" opacity="0.3" />
+      <defs>
+        <linearGradient id={`${id}-petal`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FFF1B8" />
+          <stop offset="100%" stopColor="#F0CF5E" />
+        </linearGradient>
+        <radialGradient id={`${id}-trumpet`} cx="50%" cy="40%" r="70%">
+          <stop offset="0%" stopColor="#F2B53C" />
+          <stop offset="100%" stopColor="#C88820" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Camellia: dense rounded overlapping petal rings. Rose-red. */
+function Camellia({ id }: { id: string }) {
+  const pathFor = (len: number, w: number) => {
+    const tipY = 50 - len
+    return [
+      "M 50 50",
+      `C ${50 - w} ${50 - len * 0.3}, ${50 - w * 0.7} ${tipY + 3}, 50 ${tipY}`,
+      `C ${50 + w * 0.7} ${tipY + 3}, ${50 + w} ${50 - len * 0.3}, 50 50 Z`,
+    ].join(" ")
+  }
+  const rings = [
+    { count: 7, len: 38, w: 16, opacity: 0.72, offset: 0 },
+    { count: 7, len: 38, w: 16, opacity: 0.72, offset: 25.7 },
+    { count: 6, len: 27, w: 13, opacity: 0.88, offset: 15 },
+    { count: 5, len: 17, w: 9, opacity: 1, offset: 0 },
+  ]
+  return (
+    <g>
+      {rings.map((r) =>
+        Array.from({ length: r.count }, (_, i) => {
+          const angle = r.offset + (360 / r.count) * i
+          return (
+            <path
+              key={`ring-${r.count}-${r.offset}-${i}`}
+              d={pathFor(r.len, r.w)}
+              fill={`url(#${id}-petal)`}
+              opacity={r.opacity}
+              transform={`rotate(${angle} 50 50)`}
+            />
+          )
+        }),
+      )}
+      <circle cx="50" cy="50" r="3.5" fill="#7A1A30" />
+      <circle cx="45" cy="43" r="12" fill={`url(#${id}-hi)`} opacity="0.3" />
+      <defs>
+        <radialGradient id={`${id}-petal`} cx="50%" cy="40%" r="65%">
+          <stop offset="0%" stopColor="#E89AAE" />
+          <stop offset="100%" stopColor="#B23A56" />
+        </radialGradient>
+        <radialGradient id={`${id}-hi`}>
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.85" />
+          <stop offset="70%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+/* Lilies — three distinct silhouettes: funnel, open star, recurved.          */
+/* -------------------------------------------------------------------------- */
+
+/** Candidate bloom — Calla Lily: a single elegant funnel spathe around a spadix. Ivory. */
+function CallaLily({ id }: { id: string }) {
+  return (
+    <g>
+      {/* Spathe — the funnel petal, narrowing to a stem */}
+      <path
+        d="M 50 92 C 50 92, 48 86, 48 80 C 40 64, 34 42, 42 22 C 46 30, 48 30, 50 30 C 52 30, 54 30, 58 22 C 66 42, 60 64, 52 80 C 52 86, 50 92, 50 92 Z"
+        fill={`url(#${id}-spathe)`}
+      />
+      {/* Rolled margin highlight */}
+      <path
+        d="M 50 30 C 54 32, 58 30, 58 22 C 56 24, 53 26, 50 26 C 47 26, 44 24, 42 22 C 42 30, 46 32, 50 30 Z"
+        fill="#F0E6D4"
+      />
+      {/* Spadix — the central golden spike */}
+      <path d="M 50 78 C 50 60, 50 44, 50 30 C 51 30, 51 60, 50 78 Z" fill={`url(#${id}-spadix)`} />
+      <circle cx="50" cy="32" r="1.8" fill="#C9A961" />
+      <defs>
+        <linearGradient id={`${id}-spathe`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="100%" stopColor="#E8DDC8" />
+        </linearGradient>
+        <linearGradient id={`${id}-spadix`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#F2D247" />
+          <stop offset="100%" stopColor="#C9A961" />
+        </linearGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Stargazer Lily: open six-pointed star with speckles and long stamens. Pink. */
+function StargazerLily({ id }: { id: string }) {
+  const count = 6
+  const petal =
+    "M 50 50 C 40 44, 32 30, 34 14 C 42 20, 48 28, 50 32 C 52 28, 58 20, 66 14 C 68 30, 60 44, 50 50 Z"
+  const speckles = [{ x: 46, y: 40 }, { x: 54, y: 40 }, { x: 44, y: 34 }, { x: 56, y: 34 }, { x: 50, y: 44 }]
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = (360 / count) * i
+        return (
+          <g key={`petal-${i}`} transform={`rotate(${angle} 50 50)`}>
+            <path d={petal} fill={`url(#${id}-petal)`} />
+            {speckles.map((p, j) => (
+              <circle key={`sp-${i}-${j}`} cx={p.x} cy={p.y} r="0.9" fill="#7A2050" opacity="0.6" />
+            ))}
+          </g>
+        )
+      })}
+      {/* Long radiating stamens with orange anthers */}
+      {Array.from({ length: 6 }, (_, i) => {
+        const a = ((360 / 6) * i + 30) * (Math.PI / 180)
+        const x2 = 50 + 16 * Math.cos(a)
+        const y2 = 50 + 16 * Math.sin(a)
+        return (
+          <g key={`stamen-${i}`}>
+            <line x1="50" y1="50" x2={x2} y2={y2} stroke="#E8DDC8" strokeWidth="1" strokeLinecap="round" />
+            <ellipse cx={x2} cy={y2} rx="1.6" ry="2.4" fill="#D9602A" />
+          </g>
+        )
+      })}
+      <circle cx="50" cy="50" r="3.5" fill="#7A2050" />
+      <defs>
+        <radialGradient id={`${id}-petal`} cx="50%" cy="85%" r="80%">
+          <stop offset="0%" stopColor="#F2B8C8" />
+          <stop offset="60%" stopColor="#E89AAD" />
+          <stop offset="100%" stopColor="#FFFFFF" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Tiger Lily: six strongly recurved spotted petals. Orange. */
+function TigerLily({ id }: { id: string }) {
+  const count = 6
+  // Reflexed petal — base at center, sweeping up and curling back at the tip
+  const petal =
+    "M 50 50 C 46 40, 40 28, 42 14 C 46 22, 48 26, 50 24 C 52 26, 54 22, 58 14 C 60 28, 54 40, 50 50 Z"
+  const speckles = [{ x: 48, y: 38 }, { x: 52, y: 38 }, { x: 46, y: 32 }, { x: 54, y: 32 }, { x: 50, y: 44 }]
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = (360 / count) * i
+        return (
+          <g key={`petal-${i}`} transform={`rotate(${angle} 50 50)`}>
+            <path d={petal} fill={`url(#${id}-petal)`} />
+            {speckles.map((p, j) => (
+              <circle key={`sp-${i}-${j}`} cx={p.x} cy={p.y} r="0.9" fill="#5A1020" opacity="0.65" />
+            ))}
+          </g>
+        )
+      })}
+      {Array.from({ length: 6 }, (_, i) => {
+        const a = ((360 / 6) * i + 30) * (Math.PI / 180)
+        const x2 = 50 + 18 * Math.cos(a)
+        const y2 = 50 + 18 * Math.sin(a)
+        return (
+          <g key={`stamen-${i}`}>
+            <line x1="50" y1="50" x2={x2} y2={y2} stroke="#3A1010" strokeWidth="1" strokeLinecap="round" />
+            <ellipse cx={x2} cy={y2} rx="1.4" ry="2.2" fill="#5A1020" />
+          </g>
+        )
+      })}
+      <circle cx="50" cy="50" r="3.5" fill="#5A1020" />
+      <defs>
+        <radialGradient id={`${id}-petal`} cx="50%" cy="80%" r="80%">
+          <stop offset="0%" stopColor="#F29030" />
+          <stop offset="100%" stopColor="#D45A14" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/* -------------------------------------------------------------------------- */
+/* Orchids — three distinct forms: round moth, showy cattleya, pouch slipper. */
+/* -------------------------------------------------------------------------- */
+
+/** Candidate bloom — Moth Orchid: five broad round petals with a lobed lip. Lilac. */
+function MothOrchid({ id }: { id: string }) {
+  const count = 5
+  const petal = "M 50 50 C 40 42, 38 26, 50 14 C 62 26, 60 42, 50 50 Z"
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = (360 / count) * i
+        return (
+          <path
+            key={`petal-${i}`}
+            d={petal}
+            fill={`url(#${id}-petal)`}
+            transform={`rotate(${angle} 50 50)`}
+          />
+        )
+      })}
+      {/* Three-lobed lip at the bottom */}
+      <path
+        d="M 44 50 C 38 56, 38 68, 44 74 C 46 78, 54 78, 56 74 C 62 68, 62 56, 56 50 Z"
+        fill={`url(#${id}-lip)`}
+      />
+      <circle cx="50" cy="52" r="2.5" fill="#6B4A8C" />
+      <defs>
+        <radialGradient id={`${id}-petal`} cx="50%" cy="70%" r="80%">
+          <stop offset="0%" stopColor="#F0E0F0" />
+          <stop offset="100%" stopColor="#C9A0D4" />
+        </radialGradient>
+        <radialGradient id={`${id}-lip`} cx="50%" cy="30%" r="80%">
+          <stop offset="0%" stopColor="#D98AB8" />
+          <stop offset="100%" stopColor="#8A4A78" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Cattleya Orchid: narrow pointed petals with a large ruffled lip. Lavender. */
+function CattleyaOrchid({ id }: { id: string }) {
+  const count = 5
+  const petal = "M 50 50 C 46 38, 45 22, 50 8 C 55 22, 54 38, 50 50 Z"
+  return (
+    <g>
+      {Array.from({ length: count }, (_, i) => {
+        const angle = (360 / count) * i
+        return (
+          <path
+            key={`petal-${i}`}
+            d={petal}
+            fill={`url(#${id}-petal)`}
+            transform={`rotate(${angle} 50 50)`}
+          />
+        )
+      })}
+      {/* Showy ruffled lip */}
+      <path
+        d="M 50 50 C 36 54, 30 64, 34 76 C 37 82, 42 84, 44 80 C 43 85, 47 87, 50 84 C 53 87, 57 85, 56 80 C 58 84, 63 82, 66 76 C 70 64, 64 54, 50 50 Z"
+        fill={`url(#${id}-lip)`}
+      />
+      {/* Yellow throat */}
+      <ellipse cx="50" cy="64" rx="5" ry="7" fill="#F2D247" opacity="0.7" />
+      <circle cx="50" cy="50" r="2.5" fill="#5A2A5A" />
+      <defs>
+        <linearGradient id={`${id}-petal`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#D4B6DC" />
+          <stop offset="100%" stopColor="#9C6AB4" />
+        </linearGradient>
+        <radialGradient id={`${id}-lip`} cx="50%" cy="30%" r="80%">
+          <stop offset="0%" stopColor="#C4609A" />
+          <stop offset="100%" stopColor="#7A2A6A" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
+/** Candidate bloom — Slipper Orchid: a striped dorsal petal over a bulbous pouch. Bronze. */
+function SlipperOrchid({ id }: { id: string }) {
+  return (
+    <g>
+      {/* Dorsal petal — large rounded top */}
+      <path d="M 50 48 C 36 44, 34 24, 50 14 C 66 24, 64 44, 50 48 Z" fill={`url(#${id}-dorsal)`} />
+      {/* Vertical stripes on the dorsal */}
+      <path d="M 50 14 L 50 46" stroke="#7A4A20" strokeWidth="0.8" opacity="0.4" />
+      <path d="M 44 18 C 42 28, 42 38, 46 45" stroke="#7A4A20" strokeWidth="0.7" opacity="0.4" fill="none" />
+      <path d="M 56 18 C 58 28, 58 38, 54 45" stroke="#7A4A20" strokeWidth="0.7" opacity="0.4" fill="none" />
+      {/* Hanging side petals */}
+      <path d="M 50 48 C 38 54, 30 66, 32 80 C 40 72, 46 60, 50 50 Z" fill={`url(#${id}-petal)`} />
+      <path d="M 50 48 C 62 54, 70 66, 68 80 C 60 72, 54 60, 50 50 Z" fill={`url(#${id}-petal)`} />
+      {/* The pouch (slipper) */}
+      <path
+        d="M 42 50 C 36 58, 34 72, 42 82 C 46 88, 54 88, 58 82 C 66 72, 64 58, 58 50 C 54 54, 46 54, 42 50 Z"
+        fill={`url(#${id}-pouch)`}
+      />
+      <ellipse cx="50" cy="52" rx="7" ry="3" fill="#5A2A20" opacity="0.45" />
+      <circle cx="50" cy="50" r="2" fill="#C9A961" />
+      <defs>
+        <linearGradient id={`${id}-dorsal`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#E8C46A" />
+          <stop offset="100%" stopColor="#C88820" />
+        </linearGradient>
+        <linearGradient id={`${id}-petal`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#D4A05A" />
+          <stop offset="100%" stopColor="#9C6A2A" />
+        </linearGradient>
+        <radialGradient id={`${id}-pouch`} cx="50%" cy="40%" r="75%">
+          <stop offset="0%" stopColor="#C4703A" />
+          <stop offset="100%" stopColor="#7A3A1A" />
+        </radialGradient>
+      </defs>
+    </g>
+  )
+}
+
 function renderFlower(kind: FlowerKind, id: string) {
   switch (kind) {
     case "peony":
@@ -376,9 +1105,86 @@ function renderFlower(kind: FlowerKind, id: string) {
       return <Lotus id={id} />
     case "sweetpea":
       return <SweetPea id={id} />
+    case "tulip":
+      return <Tulip id={id} />
+    case "sunflower":
+      return <Sunflower id={id} />
+    case "lavender":
+      return <Lavender id={id} />
+    case "anemone":
+      return <Anemone id={id} />
+    case "hydrangea":
+      return <Hydrangea id={id} />
+    case "iris":
+      return <Iris id={id} />
+    case "poppy":
+      return <Poppy id={id} />
+    case "sakura":
+      return <Sakura id={id} />
+    case "daffodil":
+      return <Daffodil id={id} />
+    case "camellia":
+      return <Camellia id={id} />
+    case "lily_calla":
+      return <CallaLily id={id} />
+    case "lily_stargazer":
+      return <StargazerLily id={id} />
+    case "lily_tiger":
+      return <TigerLily id={id} />
+    case "orchid_moth":
+      return <MothOrchid id={id} />
+    case "orchid_cattleya":
+      return <CattleyaOrchid id={id} />
+    case "orchid_slipper":
+      return <SlipperOrchid id={id} />
     default:
       return <Peony id={id} />
   }
+}
+
+/** Candidate blooms surfaced for selection on the main page. */
+export const CANDIDATE_FLOWERS: { kind: FlowerKind; name: string }[] = [
+  { kind: "tulip", name: "Tulip" },
+  { kind: "sunflower", name: "Sunflower" },
+  { kind: "lavender", name: "Lavender" },
+  { kind: "anemone", name: "Anemone" },
+  { kind: "hydrangea", name: "Hydrangea" },
+  { kind: "iris", name: "Iris" },
+  { kind: "poppy", name: "Poppy" },
+  { kind: "sakura", name: "Cherry Blossom" },
+  { kind: "daffodil", name: "Daffodil" },
+  { kind: "camellia", name: "Camellia" },
+  { kind: "lily_calla", name: "Calla Lily" },
+  { kind: "lily_stargazer", name: "Stargazer Lily" },
+  { kind: "lily_tiger", name: "Tiger Lily" },
+  { kind: "orchid_moth", name: "Moth Orchid" },
+  { kind: "orchid_cattleya", name: "Cattleya Orchid" },
+  { kind: "orchid_slipper", name: "Slipper Orchid" },
+]
+
+export interface FlowerProps {
+  kind: FlowerKind
+  className?: string
+  decorative?: boolean
+  "aria-label"?: string
+}
+
+/** Render a specific flower kind directly, independent of the table mapping. */
+export function Flower({ kind, className, decorative = false, ...rest }: FlowerProps) {
+  const id = useSafeId()
+  const a11y = decorative
+    ? { "aria-hidden": true as const }
+    : {
+        role: "img" as const,
+        "aria-label":
+          (rest["aria-label"] as string | undefined) ?? FLOWER_NAMES[kind],
+      }
+
+  return (
+    <svg viewBox="0 0 100 100" className={className} {...a11y}>
+      {renderFlower(kind, id)}
+    </svg>
+  )
 }
 
 /* -------------------------------------------------------------------------- */

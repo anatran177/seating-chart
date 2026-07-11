@@ -18,6 +18,17 @@ export default function App() {
 
   const search = useGuestSearch({ fuse });
 
+  // Other guests seated at the selected guest's table (excluding the guest).
+  const tableMates = useMemo(
+    () =>
+      search.selected
+        ? data.guests.filter(
+            (g) => g.table === search.selected!.table && g.name !== search.selected!.name,
+          )
+        : [],
+    [search.selected],
+  );
+
   const showResult = search.status !== "searching";
 
   return (
@@ -67,6 +78,7 @@ export default function App() {
                     status={search.status as "found" | "multiple" | "notfound"}
                     guest={search.selected}
                     candidates={search.candidates}
+                    tableMates={tableMates}
                     onSelect={search.selectGuest}
                     onReset={search.reset}
                   />

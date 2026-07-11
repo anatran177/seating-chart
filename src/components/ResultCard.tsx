@@ -1,11 +1,13 @@
 import { motion } from "framer-motion"
 import type { Guest, LookupStatus } from "../lib/types"
 import { firstName } from "../lib/search"
+import { TableFlower } from "./TableFlower"
 
 interface ResultCardProps {
   status: Extract<LookupStatus, "found" | "multiple" | "notfound">
   guest: Guest | null
   candidates: Guest[]
+  tableMates: Guest[]
   onSelect: (guest: Guest) => void
   onReset: () => void
 }
@@ -15,8 +17,13 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 function TableBadge({ guest, className = "" }: { guest: Guest; className?: string }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full bg-plum/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-plum ${className}`}
+      className={`inline-flex items-center gap-2 rounded-full bg-plum/10 py-1 pl-1.5 pr-4 text-xs font-semibold uppercase tracking-[0.14em] text-plum ${className}`}
     >
+      <TableFlower
+        table={guest.table}
+        decorative
+        className="h-6 w-6 shrink-0"
+      />
       Table {guest.table}
     </span>
   )
@@ -43,7 +50,7 @@ function SearchAgainButton({ onClick }: { onClick: () => void }) {
   )
 }
 
-export function ResultCard({ status, guest, candidates, onSelect, onReset }: ResultCardProps) {
+export function ResultCard({ status, guest, candidates, tableMates, onSelect, onReset }: ResultCardProps) {
   if (status === "found" && guest) {
     return (
       <motion.div
@@ -53,31 +60,18 @@ export function ResultCard({ status, guest, candidates, onSelect, onReset }: Res
         transition={{ duration: 0.5, ease: EASE }}
         className="text-center"
       >
-        {/* Decorative floral accent */}
-        <motion.svg
-          width="56"
-          height="56"
-          viewBox="0 0 64 64"
-          className="mx-auto mb-4 text-rose"
-          aria-hidden="true"
+        {/* Signature flower for this guest's table */}
+        <motion.span
+          className="mx-auto mb-4 block w-20"
           initial={{ rotate: -12, scale: 0.6, opacity: 0 }}
           animate={{ rotate: 0, scale: 1, opacity: 1 }}
           transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
         >
-          <g fill="currentColor" opacity="0.85">
-            {[0, 60, 120, 180, 240, 300].map((a) => (
-              <ellipse
-                key={a}
-                cx="32"
-                cy="18"
-                rx="7"
-                ry="13"
-                transform={`rotate(${a} 32 32)`}
-              />
-            ))}
-          </g>
-          <circle cx="32" cy="32" r="7" fill="#C9A961" />
-        </motion.svg>
+          <TableFlower
+            table={guest.table}
+            className="mx-auto h-20 w-20 drop-shadow-[0_2px_8px_rgba(62,31,48,0.14)]"
+          />
+        </motion.span>
 
         <p className="font-display text-2xl italic text-plum-soft">Welcome,</p>
         <h2 className="mt-1 font-display text-4xl font-semibold leading-tight text-plum-deep sm:text-5xl">
@@ -93,6 +87,37 @@ export function ResultCard({ status, guest, candidates, onSelect, onReset }: Res
         <p className="font-numeral text-6xl text-plum sm:text-7xl">
           {guest.table}
         </p>
+
+        {tableMates.length > 0 && (
+          <motion.div
+            className="mx-auto mt-7 w-full max-w-sm"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: EASE, delay: 0.25 }}
+          >
+            <div className="flex items-center justify-center gap-3 text-gold">
+              <span className="h-px w-8 bg-gold/50" />
+              <span className="text-[0.65rem] uppercase tracking-[0.25em] text-plum-soft/70">
+                Also at this table
+              </span>
+              <span className="h-px w-8 bg-gold/50" />
+            </div>
+
+            <ul className="mt-4 flex flex-col items-center gap-2">
+              {tableMates.map((m, i) => (
+                <motion.li
+                  key={m.name}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, ease: EASE, delay: 0.3 + i * 0.05 }}
+                  className="flex w-full items-center justify-center rounded-full border border-gold/20 bg-plum/10 px-4 py-1.5 font-display text-base text-plum-deep"
+                >
+                  {m.name}
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
 
         <SearchAgainButton onClick={onReset} />
       </motion.div>

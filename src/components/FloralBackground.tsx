@@ -214,17 +214,22 @@ const PETAL_COLORS: FloralColor[] = ["blush", "rose", "plum", "gold"]
 function usePetalConfigs(count: number): PetalConfig[] {
   return useMemo(
     () =>
-      Array.from({ length: count }, (_, id) => ({
-        id,
-        left: Math.random() * 100,
-        size: 22 + Math.random() * 20, // 22–42px (bigger peony petals)
-        duration: 10 + Math.random() * 10,
-        delay: Math.random() * 16,
-        drift: (Math.random() * 2 - 1) * 80,
-        rotate: (Math.random() * 2 - 1) * 240,
-        maxOpacity: 0.5 + Math.random() * 0.4,
-        color: PETAL_COLORS[id % PETAL_COLORS.length],
-      })),
+      Array.from({ length: count }, (_, id) => {
+        const duration = 10 + Math.random() * 10
+        return {
+          id,
+          left: Math.random() * 100,
+          size: 22 + Math.random() * 20, // 22–42px (bigger peony petals)
+          duration,
+          // Negative delay starts each petal mid-fall, so petals are already
+          // falling across the screen the moment the page loads.
+          delay: -Math.random() * duration,
+          drift: (Math.random() * 2 - 1) * 80,
+          rotate: (Math.random() * 2 - 1) * 240,
+          maxOpacity: 0.5 + Math.random() * 0.4,
+          color: PETAL_COLORS[id % PETAL_COLORS.length],
+        }
+      }),
     [count],
   )
 }
